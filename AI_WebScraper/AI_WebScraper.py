@@ -1,20 +1,9 @@
-"""Welcome to Reflex! This file outlines the steps to create a basic app."""
-
 import reflex as rx
 
 from rxconfig import config
-from .components import navbar, footer
+from AI_WebScraper.components import navbar, footer
+from AI_WebScraper.backend.states import State
 
-
-
-# State for managing input and search result
-class State(rx.State):
-    query: str = ""
-    result: str = ""
-
-    def search(self):
-        # This is where you’d do scraping
-        self.result = f"Result for '{self.query}' (pretend this came from the web)"
 
 
 
@@ -41,7 +30,13 @@ def index():
                     on_change=State.set_query,
                     width="300px",
                 ),
-                rx.button("Search", on_click=State.search),
+                rx.input(
+                    placeholder="what do you want to scrape?",
+                    value=State.prompt,
+                    on_change=State.set_prompt,
+                    width="200px"
+                ),
+                rx.button("Scrape", on_click=State.search),
                 rx.text(State.result, font_size="xl", color="gray.700"),
                 spacing="2",
             ),
